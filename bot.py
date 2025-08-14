@@ -50,8 +50,16 @@ async def approve(_, m : Message):
 @app.on_message(filters.command("start"))
 async def op(_, m :Message):
     try:
-        await app.get_chat(cfg.CHID)  # <-- New line to cache the chat
+        if cfg.CHID:
+    try:
+        await app.get_chat(cfg.CHID)
         await app.get_chat_member(cfg.CHID, m.from_user.id)
+    except Exception as e:
+        await m.reply_text(f"⚠️ Channel check failed: {e}")
+        return
+else:
+    print("⚠️ No CHID set — skipping channel check")
+
         if m.chat.type == enums.ChatType.PRIVATE:
             keyboard = InlineKeyboardMarkup(
                 [
