@@ -48,17 +48,15 @@ async def approve(_, m : Message):
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Start ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 @app.on_message(filters.command("start"))
-async def op(_, m :Message):
+async def op(_, m: Message):
     try:
         if cfg.CHID:
-    try:
-        await app.get_chat(cfg.CHID)
-        await app.get_chat_member(cfg.CHID, m.from_user.id)
-    except Exception as e:
-        await m.reply_text(f"⚠️ Channel check failed: {e}")
-        return
-else:
-    print("⚠️ No CHID set — skipping channel check")
+            try:
+                await app.get_chat(cfg.CHID)  # Only run if CHID is set
+            except Exception as e:
+                print(f"Error getting chat: {e}")
+        else:
+            print("⚠️ No channel ID set, skipping get_chat()")
 
         if m.chat.type == enums.ChatType.PRIVATE:
             keyboard = InlineKeyboardMarkup(
